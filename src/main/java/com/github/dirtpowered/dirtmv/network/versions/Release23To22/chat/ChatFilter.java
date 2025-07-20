@@ -34,7 +34,7 @@ public class ChatFilter {
             '\\', ']', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
             'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
             's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|',
-            '}', '~', '⌂', 'Ç', 'ü', 'é', 'â', 'ä', 'à', 'å',
+            '}', '~', 'Ç', 'ü', 'é', 'â', 'ä', 'à', 'å',
             'ç', 'ê', 'ë', 'è', 'ï', 'î', 'ì', 'Ä', 'Å', 'É',
             'æ', 'Æ', 'ô', 'ö', 'ò', 'û', 'ù', 'ÿ', 'Ö', 'Ü',
             'ø', '£', 'Ø', '×', 'ƒ', 'á', 'í', 'ó', 'ú', 'ñ',
@@ -50,13 +50,14 @@ public class ChatFilter {
      */
     public static String filterChat(String message) {
         message = message.trim();
-        String allowed = new String(ALLOWED_CHARACTERS);
 
-        for (int i = 0; i < message.length(); ++i) {
+        StringBuilder allowed = new StringBuilder(new String(ALLOWED_CHARACTERS));
+
+        for (int i = 0; i < message.length(); i++) {
             String toReplace = Character.toString(message.charAt(i));
 
-            if (!allowed.contains(toReplace)) {
-                message = message.replaceAll(toReplace, "*");
+            if (!allowed.toString().contains(toReplace)) {
+                message = message.replace(toReplace, "*");
             }
         }
 
