@@ -11,7 +11,11 @@ on:
   schedule:
     - cron: '0 */6 * * *'
   workflow_dispatch:
-    inputs: []
+    inputs:
+    tags:
+        description: 'Regardless of whether it is'
+        required: false
+        type: boolean
 jobs:
   build:
 
