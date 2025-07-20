@@ -1,16 +1,13 @@
-# DirtMultiversion
-[![Discord](https://img.shields.io/discord/684429844947271767.svg?label=Discord)](https://discord.gg/v6xsRdc)
-[![Build Status](https://ci.mzga.dev/job/DirtMultiversion/badge/icon)](https://ci.mzga.dev/job/DirtMultiversion/)
-[![License: MIT](https://img.shields.io/badge/license-MIT-red.svg)](LICENSE)
+# DirtMultiversion - AutoBuild
+Auto build DirtMultiversion with the latest viaversion to support latest client.
 
-Proxy that allows connecting older servers using newer client. Work in progress
+---
 
-#### Join DMV discord server to get latest news & support
-https://discord.gg/v6xsRdc
+DirtMultiversion is a proxy that allows connecting older servers using newer client.
 
 ### Supported versions
-All versions between beta 1.3 - release 1.19.2 (with <a href="https://github.com/ViaVersion/ViaVersion">ViaVersion</a> support enabled in config)
-Example: You can connect to beta 1.7.3 server using every version up to release 1.19.2
+All versions between beta 1.3 - release latest (with <a href="https://github.com/ViaVersion/ViaVersion">ViaVersion</a> support enabled in config)
+Example: You can connect to beta 1.7.3 server using every version up to release 1.21.8
 
 ### Bugs
 - [x] All listed above protocols are unfinished, but almost ready for normal usage
@@ -22,20 +19,8 @@ Example: You can connect to beta 1.7.3 server using every version up to release 
 - [x] and few others
 
 ### Releases
-**Jenkins**: https://ci.mzga.dev
+**Github Actions** (latest)**:** [url]
 
-### Compiling from source
-Using maven:
-```
-git clone https://github.com/DirtPowered/DirtMultiversion.git
-cd ./DirtMultiversion
-mvn clean package
-```
+---
 
-### How to run
-```
-1. Compile or download latest release from github releases
-2. Create start script or use terminal / command prompt and type java -jar <file>.jar
-3. Open config.yml and set remote server version and address
-4. Restart DMV
-```
+*Source repository: [DirtPowered/DirtMultiversion: Proxy that allows connecting older servers using newer client. Work in progress](https://github.com/DirtPowered/DirtMultiversion)*
