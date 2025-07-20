@@ -12,7 +12,7 @@ on:
     - cron: '0 */6 * * *'
   workflow_dispatch:
     inputs:
-    tags:
+      tags:
         description: 'Regardless of whether it is'
         required: false
         type: boolean
