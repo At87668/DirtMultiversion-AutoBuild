@@ -103,7 +103,6 @@ public class ViaPlugin implements ViaPlatform<DirtServer> {
         return wrappedLogger;
     }
 
-    @Override
     public boolean isPluginEnabled() {
         return true;
     }
@@ -128,12 +127,10 @@ public class ViaPlugin implements ViaPlatform<DirtServer> {
         return viaAPI;
     }
 
-    @Override
     public void sendMessage(UUID uuid, String s) {
         throw new UnsupportedOperationException("not supported yet");
     }
 
-    @Override
     public boolean kickPlayer(UUID uuid, String s) {
         throw new UnsupportedOperationException("not supported yet");
     }
@@ -153,7 +150,6 @@ public class ViaPlugin implements ViaPlatform<DirtServer> {
         return new File("ViaVersion");
     }
 
-    @Override
     public ViaCommandSender[] getOnlinePlayers() {
         return new ViaCommandSender[0];
     }
