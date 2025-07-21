@@ -61,7 +61,7 @@ jobs:
         draft: false
         prerelease: false
         files: ./build/libs/*.jar
-        token: ${{ github.token }}
+        token: ${{ secrets.GITHUB_TOKEN }}
 
     #- name: Coveralls Check
     #  uses: coverallsapp/github-action@v2
