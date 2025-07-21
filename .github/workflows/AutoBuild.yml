@@ -80,16 +80,19 @@ jobs:
         name: DirtMultiversion-SNAPSHOT-${{ steps.date.outputs.date }}
         path: ./build/libs/*.jar
         retention-days: 30
-        
-    - name: Save current commit for next run
+
+    - name: Generate .last_commit_sha file
       if: ${{ steps.compare.outputs.changed == 'true' }}
       run: |
         echo "${{ steps.current_commit.outputs.current_sha }}" > .last_commit_sha
+
+    - name: Upload .last_commit_sha for next run
+      if: ${{ steps.compare.outputs.changed == 'true' }}
       uses: actions/upload-artifact@v4
       with:
         name: last-commit
         path: .last_commit_sha
-        
+
     - name: Skip if no changes
       if: ${{ steps.compare.outputs.changed == 'false' }}
       run: |
