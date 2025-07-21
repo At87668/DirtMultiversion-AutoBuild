@@ -18,8 +18,10 @@ Example: You can connect to beta 1.7.3 server using every version up to release 
 - [X] 1.6 encryption (doesn't work with servers behind BungeeCord)
 - [x] and few others
 
-### Releases
-**Github Actions** (latest)**:** [Auto Build CI · Workflow](https://github.com/At87668/DirtMultiversion-AutoBuild/actions/workflows/AutoBuild.yml)
+### Downloads
+**Github Actions** (latest)**:** [Auto Build CI · DirtMultiversion-AutoBuild](https://github.com/At87668/DirtMultiversion-AutoBuild/actions/workflows/AutoBuild.yml)
+
+**Github Releases** (latest)**:** [Releases · DirtMultiversion-AutoBuild](https://github.com/At87668/DirtMultiversion-AutoBuild/releases)
 
 ---
 
