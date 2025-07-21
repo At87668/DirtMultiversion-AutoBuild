@@ -33,7 +33,10 @@ jobs:
         repository: ViaVersion/ViaVersion
         branch: master
         token: ${{ secrets.GITHUB_TOKEN }}
-      path: viaversion
+
+    - name: Move repository to viaversion folder
+      run: |
+        mv ViaVersion viaversion
 
     - name: Get current commit hash
       id: current_commit
