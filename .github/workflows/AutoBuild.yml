@@ -28,11 +28,11 @@ jobs:
       continue-on-error: true
 
     - name: Clone ViaVersion repository
-      uses: tibdex/github-action-clone-repo@v1
+      uses: actions/checkout@v4
       with:
         repository: ViaVersion/ViaVersion
-        branch: master
-        token: ${{ secrets.GITHUB_TOKEN }}
+        ref: master
+        path: viaversion
 
     - name: Move repository to viaversion folder
       run: |
