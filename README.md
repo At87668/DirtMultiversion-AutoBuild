@@ -19,7 +19,7 @@ Example: You can connect to beta 1.7.3 server using every version up to release 
 - [x] and few others
 
 ### Releases
-**Github Actions** (latest)**:** [url]
+**Github Actions** (latest)**:** [Auto Build CI · Workflow](https://github.com/At87668/DirtMultiversion-AutoBuild/actions/workflows/AutoBuild.yml)
 
 ---
 
