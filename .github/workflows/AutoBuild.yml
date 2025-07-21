@@ -56,11 +56,12 @@ jobs:
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v1
       with:
+        name: "Build ${{ steps.date.outputs.date }} SNAPSHOT"
         tag_name: ${{ steps.date.outputs.date }}
-        release_name: "Build ${{ steps.date.outputs.date }} SNAPSHOT"
         draft: false
         prerelease: false
         files: ./build/libs/*.jar
+        token: ${{ github.token }}
 
     #- name: Coveralls Check
     #  uses: coverallsapp/github-action@v2
