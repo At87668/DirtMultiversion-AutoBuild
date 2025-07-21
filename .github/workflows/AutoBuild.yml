@@ -49,16 +49,15 @@ jobs:
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: DirtMultiversion-SNAPSHOT-${{ steps.date.outputs.date }}
+        name: DirtMultiversion-${{ steps.date.outputs.date }}-SNAPSHOT
         path: ./build/libs/*.jar
         retention-days: 30
         
     - name: Create GitHub Release
-      if: ${{ steps.compare.outputs.changed == 'true' }}
       uses: softprops/action-gh-release@v1
       with:
         tag_name: ${{ steps.date.outputs.date }}
-        release_name: "Build ${{ steps.date.outputs.date }}"
+        release_name: "Build ${{ steps.date.outputs.date }} SNAPSHOT"
         draft: false
         prerelease: false
         files: ./build/libs/*.jar
