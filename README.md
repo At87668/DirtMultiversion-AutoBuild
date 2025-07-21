@@ -7,6 +7,7 @@ DirtMultiversion is a proxy that allows connecting older servers using newer cli
 
 ### Supported versions
 All versions between beta 1.3 - release latest (with <a href="https://github.com/ViaVersion/ViaVersion">ViaVersion</a> support enabled in config)
+
 Example: You can connect to beta 1.7.3 server using every version up to release 1.21.8
 
 ### Bugs
