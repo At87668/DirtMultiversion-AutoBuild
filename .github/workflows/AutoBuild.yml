@@ -26,9 +26,11 @@ jobs:
 
     steps:
     - name: Checkout ViaVersion
-      uses: actions/checkout@v4
-      repository: ViaVersion/ViaVersion
-      ref: master
+      uses: tibdex/github-action-clone-repo@v1
+      with:
+        repository: ViaVersion/ViaVersion
+        branch: master
+        token: ${{ secrets.GITHUB_TOKEN }}
       path: viaversion
 
     - name: Get last commit hash of ViaVersion
