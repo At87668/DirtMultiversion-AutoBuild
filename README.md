@@ -13,9 +13,10 @@ Example: You can connect to beta 1.7.3 server using every version up to release 
 ### How to use
 
 1. Download the latest jar file from [Github Actions](https://github.com/At87668/DirtMultiversion-AutoBuild/actions/workflows/AutoBuild.yml) or [Github Releases](https://github.com/At87668/DirtMultiversion-AutoBuild/releases).
-
 2. Use `java -jar DirtMultiversion-SNAPSHOT.jar` to execute the program. (You need Java 17+)
 3. Edit the `config.yml` to adapt to your environment.
+3. Stop the proxy.
+3. Redo step 2.
 4. Done, enjoy!
 
 ### Bugs
