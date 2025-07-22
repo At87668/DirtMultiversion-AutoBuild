@@ -1,97 +1,89 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-# This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-gradle
-
 name: Auto Build CI
 
 on:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: '0 */12 * * *'
   workflow_dispatch:
     inputs:
       tags:
         description: 'Regardless of whether it is'
         required: false
         type: boolean
+
 jobs:
   build:
-
     runs-on: ubuntu-latest
     permissions:
       contents: write
 
     steps:
     - uses: actions/checkout@v4
+
     - name: Set up JDK 17
       uses: actions/setup-java@v4
       with:
         java-version: '17'
         distribution: 'temurin'
 
-    # Configure Gradle for optimal use in GitHub Actions, including caching of downloaded dependencies.
-    # See: https://github.com/gradle/actions/blob/main/setup-gradle/README.md
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
-      
+
     - name: Make gradlew executable
       run: chmod +x ./gradlew
 
     - name: Build with Gradle Wrapper
       run: ./gradlew shadowJar
-    
+
     - name: Get current date
       id: date
       run: echo "date=$(date +%Y%m%d)" >> $GITHUB_OUTPUT
 
+    - name: Rename Jar
+      run: |
+        mv ./build/libs/*.jar "./build/libs/DirtMultiversion-SNAPSHOT-${{ steps.date.outputs.date }}.jar"
+
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: DirtMultiversion-${{ steps.date.outputs.date }}-SNAPSHOT
+        name: DirtMultiversion-SNAPSHOT-${{ steps.date.outputs.date }}
         path: ./build/libs/*.jar
         retention-days: 30
-        
+
     - name: Create GitHub Release
+      id: create_release
       uses: softprops/action-gh-release@v1
       with:
-        name: "Build ${{ steps.date.outputs.date }} SNAPSHOT"
+        name: "${{ steps.date.outputs.date }} SNAPSHOT"
         tag_name: ${{ steps.date.outputs.date }}
         draft: false
         prerelease: false
         files: ./build/libs/*.jar
         token: ${{ secrets.GITHUB_TOKEN }}
 
-    #- name: Coveralls Check
-    #  uses: coverallsapp/github-action@v2
-
-    # NOTE: The Gradle Wrapper is the default and recommended way to run Gradle (https://docs.gradle.org/current/userguide/gradle_wrapper.html).
-    # If your project does not have the Gradle Wrapper configured, you can use the following configuration to run Gradle with a specified version.
-    #
-    # - name: Setup Gradle
-    #   uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
-    #   with:
-    #     gradle-version: '8.9'
-    #
-    # - name: Build with Gradle 8.9
-    #   run: gradle build
-
-#  dependency-submission:
-#
-#    runs-on: ubuntu-latest
-#    permissions:
-#      contents: write
-#
-#    steps:
-#    - uses: actions/checkout@v4
-#    - name: Set up JDK 17
-#      uses: actions/setup-java@v4
-#      with:
-#        java-version: '17'
-#        distribution: 'temurin'
-#
-#    # Generates and submits a dependency graph, enabling Dependabot Alerts for all project dependencies.
-#    # See: https://github.com/gradle/actions/blob/main/dependency-submission/README.md
-#    - name: Generate and submit dependency graph
-#      uses: gradle/actions/dependency-submission@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
+    - name: Delete old github-actions releases
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        CURRENT_TAG: ${{ steps.date.outputs.date }}
+      run: |
+      
+        releases=$(curl -s -H "Authorization: Bearer $GITHUB_TOKEN" \
+          https://api.github.com/repos/ ${{ github.repository }}/releases)
+        
+        echo "$releases" | jq -r '.[] | "\(.id)\t\(.tag_name)\t\(.author.login)"' | while IFS=$'\t' read -r id tag author; do
+          if [[ "$tag" == "$CURRENT_TAG" ]]; then
+            echo "Skipping current release: $tag"
+            continue
+          fi
+          
+          if [[ "$author" == "github-actions[bot]" ]] && [[ "$tag" =~ ^[0-9]{8}$ ]]; then
+            echo "Deleting release with tag '$tag' (ID: $id)"
+            
+            curl -X DELETE -H "Authorization: Bearer $GITHUB_TOKEN" \
+              https://api.github.com/repos/ ${{ github.repository }}/releases/$id
+            
+            curl -X DELETE -H "Authorization: Bearer $GITHUB_TOKEN" \
+              https://api.github.com/repos/ ${{ github.repository }}/git/refs/tags/$tag
+          else
+            echo "Skipping release: $tag (author: $author)"
+          fi
+        done
