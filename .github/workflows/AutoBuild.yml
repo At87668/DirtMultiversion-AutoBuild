@@ -54,36 +54,8 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
         name: "${{ steps.date.outputs.date }} SNAPSHOT"
-        tag_name: ${{ steps.date.outputs.date }}
+        tag_name: SNAPSHOT
         draft: false
         prerelease: false
         files: ./build/libs/*.jar
         token: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Delete old github-actions releases
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        CURRENT_TAG: ${{ steps.date.outputs.date }}
-      run: |
-      
-        releases=$(curl -s -H "Authorization: Bearer $GITHUB_TOKEN" \
-          https://api.github.com/repos/ ${{ github.repository }}/releases)
-        
-        echo "$releases" | jq -r '.[] | "\(.id)\t\(.tag_name)\t\(.author.login)"' | while IFS=$'\t' read -r id tag author; do
-          if [[ "$tag" == "$CURRENT_TAG" ]]; then
-            echo "Skipping current release: $tag"
-            continue
-          fi
-          
-          if [[ "$author" == "github-actions[bot]" ]] && [[ "$tag" =~ ^[0-9]{8}$ ]]; then
-            echo "Deleting release with tag '$tag' (ID: $id)"
-            
-            curl -X DELETE -H "Authorization: Bearer $GITHUB_TOKEN" \
-              https://api.github.com/repos/ ${{ github.repository }}/releases/$id
-            
-            curl -X DELETE -H "Authorization: Bearer $GITHUB_TOKEN" \
-              https://api.github.com/repos/ ${{ github.repository }}/git/refs/tags/$tag
-          else
-            echo "Skipping release: $tag (author: $author)"
-          fi
-        done
