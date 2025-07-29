@@ -50,20 +50,19 @@ jobs:
         retention-days: 30
         
     - name: Delete Existing SNAPSHOT Release
-        run: |
-            RELEASE_ID=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-                https://api.github.com/repos/${{ github.repository }}/releases/tags/SNAPSHOT | jq -r '.id // "null"')
-
-            if [ "$RELEASE_ID" != "null" ]; then
-                echo "Deleting existing SNAPSHOT release (ID: $RELEASE_ID)"
-                curl -X DELETE -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-                    https://api.github.com/repos/${{ github.repository }}/releases/$RELEASE_ID
-            else
-                echo "No existing SNAPSHOT release found."
-            fi
-        env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        continue-on-error: true
+      run: |
+        RELEASE_ID=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+          https://api.github.com/repos/${{ github.repository }}/releases/tags/SNAPSHOT | jq -r '.id // "null"')
+        if [ "$RELEASE_ID" != "null" ]; then
+          echo "Deleting existing SNAPSHOT release (ID: $RELEASE_ID)"
+          curl -X DELETE -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/${{ github.repository }}/releases/$RELEASE_ID
+        else
+          echo "No existing SNAPSHOT release found."
+        fi
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    continue-on-error: true
 
     - name: Create GitHub Release
       id: create_release
