@@ -60,9 +60,9 @@ jobs:
         else
           echo "No existing SNAPSHOT release found."
         fi
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    continue-on-error: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      continue-on-error: true
 
     - name: Create GitHub Release
       id: create_release
